@@ -1,4 +1,5 @@
 pytest
 memory-profiler
-pandas
-faker
+pil
+argparse
+

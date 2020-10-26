@@ -1,0 +1,11 @@
+# __main__.py
+
+import sys
+import argparse
+import convert_jpg_to_png
+import convert_png_to_jpg
+import resize_by_percentage
+import resize_by_image_width
+import resize_by_image_height
+import crop_by_percent_value
+import crop_by_pixels_value
