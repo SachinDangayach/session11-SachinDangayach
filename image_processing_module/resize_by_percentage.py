@@ -17,7 +17,7 @@ def resize_by_percent_factor(resize_percent, source, destination=''):
     # Functionality :
         Takes all images in the given source and resize them
         for example if image is of size 100 X 100 and resize percent is
-        10, then all images will be resized to 110 X 110
+        110, then all images will be resized to 110 X 110
     """
 
     # Validations
@@ -30,16 +30,13 @@ def resize_by_percent_factor(resize_percent, source, destination=''):
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
 
-    if os.path.isfile(destination): # destination has to be folder
-        raise ValueError(f"Destination {destination} in not a folder path")
-
-    if destination == '' and os.path.isdir(source): # source and destination are same folders
+    if (destination == '' or destination == None) and os.path.isdir(source): # source and destination are same folders
         destination = source
 
-    if not os.path.isdir(destination):
-        raise ValueError(f"Invalid destination {destination}")
+    if not os.path.isdir(destination): # destination has to be folder
+        raise ValueError(f"Destination {destination} in not a valid folder path")
 
-    if not isinstance(resize_percent, [int, float]):
+    if not isinstance(resize_percent, int):
         raise ValueError(f"Invalid Source {resize_percent}")
 
     if resize_percent <= 0:
@@ -87,13 +84,13 @@ def resize_by_percent_factor(resize_percent, source, destination=''):
         return False
 
 if __name__ == '__main__':
-    print('Loading from command line resize_by_percentage.py: __name__ = {__name__}')
+    print(f'Loading from command line resize_by_percentage.py: __name__ = {__name__}')
 
     # get code, source, destination, recentage from arguments
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('-p', '--prcn', type= int, help='Enter the resize percentage value')
     parser.add_argument('-s', '--src', type= str, help='Enter the absolute path of input folder')
     parser.add_argument('-d', '--dest', type= str, help='Enter the absolute path of output folder')
-    parser.add_argument('-p', '--prcn', type= str, help='Enter the absolute resize percentage value')
 
     args = parser.parse_args()
 

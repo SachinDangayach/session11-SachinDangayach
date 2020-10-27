@@ -1,5 +1,5 @@
 pytest
 memory-profiler
-pil
+pillow
 argparse
 

@@ -33,16 +33,13 @@ def resize_by_width(new_width, source, destination=''):
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
 
-    if os.path.isfile(destination): # destination has to be folder
-        raise ValueError(f"Destination {destination} in not a folder path")
-
-    if destination == '' and os.path.isdir(source): # source and destination are same folders
+    if (destination == '' or destination == None) and os.path.isdir(source): # source and destination are same folders
         destination = source
 
     if not os.path.isdir(destination):
-        raise ValueError(f"Invalid destination {destination}")
+        raise ValueError(f"Destination {destination} in not a folder path")
 
-    if not isinstance(new_width, [int, float]):
+    if not isinstance(new_width, int):
         raise ValueError(f"Invalid Source {new_width}")
 
     if new_width <= 0:
@@ -96,18 +93,18 @@ def resize_by_width(new_width, source, destination=''):
         return False
 
 if __name__ == '__main__':
-    print('Loading from command line resize_by_image_width.py: __name__ = {__name__}')
+    print(f'Loading from command line resize_by_image_width.py: __name__ = {__name__}')
 
     # get code, source, destination, recentage from arguments
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('-w', '--width', type= int, help='Enter the new width value, height will change accordingly')
     parser.add_argument('-s', '--src', type= str, help='Enter the absolute path of input folder')
     parser.add_argument('-d', '--dest', type= str, help='Enter the absolute path of output folder')
-    parser.add_argument('-w', '--width', type= str, help='Enter the new width value, height will change accordingly')
 
     args = parser.parse_args()
 
     if args.src is not None and args.width is not None:
-        resize_by_width(source = args.src, destination = args.dest, new_width = args.width)
+        resize_by_width(new_width = args.width, source = args.src, destination = args.dest)
     else:
         print('Invalid arguments passed, please check help')
 

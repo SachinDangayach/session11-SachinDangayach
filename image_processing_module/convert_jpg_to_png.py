@@ -24,19 +24,16 @@ def jpg_to_png(source, destination=''):
     if not isinstance(source, str):
         raise ValueError(f"Invalid Source {source}")
 
-    if not (os.path.isfile(source) and os.path.isdir(source)):
+    if not (os.path.isfile(source) or os.path.isdir(source)):
         raise ValueError(f"Source {source} has to be file or a folder path")
 
-    if os.path.isfile(destination): # destination has to be folder
-        raise ValueError(f"Destination {destination} in not a folder path")
-
-    if destination == '' and os.path.isdir(source): # source and destination are same folders
+    if (destination == '' or destination == None) and os.path.isdir(source): # source and destination are same folders
         destination = source
-    elif destination == '' and os.path.isfile(source):
+    elif (destination == '' or destination == None) and os.path.isfile(source):
         destination = source.rsplit("\\",1)[0]
 
     if not os.path.isdir(destination):
-        raise ValueError(f"Invalid destination {destination}")
+        raise ValueError(f"Destination {destination} in not a folder path")
 
     converted_files = []
     failed_files = []
@@ -79,7 +76,7 @@ def jpg_to_png(source, destination=''):
         return False
 
 if __name__ == '__main__':
-    print('Loading from command line convert_jpg_to_png.py: __name__ = {__name__}')
+    print(f'Loading from command line convert_jpg_to_png.py: __name__ = {__name__}')
 
     # get code, source, destination from arguments
     parser = argparse.ArgumentParser(description=__doc__)

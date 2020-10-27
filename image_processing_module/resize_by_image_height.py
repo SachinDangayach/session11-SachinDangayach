@@ -1,5 +1,9 @@
 # resize_by_image_height.py
 
+import os
+from PIL import Image
+import argparse
+
 # TODO: 3.3 resize by user determined height (proportional) res_h
 def resize_by_height(new_height, source, destination=''):
     """
@@ -30,16 +34,13 @@ def resize_by_height(new_height, source, destination=''):
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
 
-    if os.path.isfile(destination): # destination has to be folder
-        raise ValueError(f"Destination {destination} in not a folder path")
-
-    if destination == '' and os.path.isdir(source): # source and destination are same folders
+    if (destination == '' or destination == None) and os.path.isdir(source): # source and destination are same folders
         destination = source
 
     if not os.path.isdir(destination):
-        raise ValueError(f"Invalid destination {destination}")
+        raise ValueError(f"Destination {destination} in not a folder path")
 
-    if not isinstance(new_height, [int, float]):
+    if not isinstance(new_height, int):
         raise ValueError(f"Invalid Source {new_height}")
 
     if new_height <= 0:
@@ -94,18 +95,18 @@ def resize_by_height(new_height, source, destination=''):
         return False
 
 if __name__ == '__main__':
-    print('Loading from command line resize_by_image_height.py: __name__ = {__name__}')
+    print(f'Loading from command line resize_by_image_height.py: __name__ = {__name__}')
 
     # get code, source, destination, recentage from arguments
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('-ht', '--height', type= int, help='Enter the new height value, width will change accordingly')
     parser.add_argument('-s', '--src', type= str, help='Enter the absolute path of input folder')
     parser.add_argument('-d', '--dest', type= str, help='Enter the absolute path of output folder')
-    parser.add_argument('-h', '--height', type= str, help='Enter the new height value, width will change accordingly')
 
     args = parser.parse_args()
 
     if args.src is not None and args.height is not None:
-        resize_by_height(source = args.src, destination = args.dest, new_height = args.height)
+        resize_by_height(new_height = args.height, source = args.src, destination = args.dest)
     else:
         print('Invalid arguments passed, please check help')
 

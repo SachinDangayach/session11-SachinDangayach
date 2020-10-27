@@ -1,5 +1,9 @@
 # crop_by_pixels_value.py
 
+import os
+from PIL import Image
+import argparse
+
 # TODO: 4.1 center square/rectangle crop by user-determined pixels crp_px
 def crop_by_pixels(w_pixel, h_pixel, source, destination=''):
     """
@@ -28,22 +32,19 @@ def crop_by_pixels(w_pixel, h_pixel, source, destination=''):
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
 
-    if os.path.isfile(destination): # destination has to be folder
-        raise ValueError(f"Destination {destination} in not a folder path")
-
-    if destination == '' and os.path.isdir(source): # source and destination are same folders
+    if (destination == '' or destination == None) and os.path.isdir(source): # source and destination are same folders
         destination = source
 
     if not os.path.isdir(destination):
-        raise ValueError(f"Invalid destination {destination}")
+        raise ValueError(f"Destination {destination} in not a folder path")
 
-    if not isinstance(w_pixel, [int, float]):
+    if not isinstance(w_pixel, int):
         raise ValueError(f"Invalid Source {w_pixel}")
 
     if w_pixel <= 0:
         raise ValueError(f"Width pixel value should be greater than 0")
 
-    if not isinstance(h_pixel, [int, float]):
+    if not isinstance(h_pixel, int):
         raise ValueError(f"Invalid Source {h_pixel}")
 
     if h_pixel <= 0:
@@ -97,19 +98,19 @@ def crop_by_pixels(w_pixel, h_pixel, source, destination=''):
         return False
 
 if __name__ == '__main__':
-    print('Loading from command line crop_by_pixels_value.py: __name__ = {__name__}')
+    print(f'Loading from command line crop_by_pixels_value.py: __name__ = {__name__}')
 
     # get code, source, destination, recentage from arguments
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('-w', '--width', type= str, help='Enter the value of width to be center cropped')
-    parser.add_argument('-h', '--height', type= str, help='Enter the value of height to be center cropped')
+    parser.add_argument('-w', '--width', type= int, help='Enter the value of width to be center cropped')
+    parser.add_argument('-ht', '--height', type= int, help='Enter the value of height to be center cropped')
     parser.add_argument('-s', '--src', type= str, help='Enter the absolute path of input folder')
     parser.add_argument('-d', '--dest', type= str, help='Enter the absolute path of output folder')
 
     args = parser.parse_args()
 
     if args.src is not None and args.width is not None and args.height is not None:
-        crop_by_pixels(new_width = args.width, new_height = args.height, source = args.src, destination = args.dest)
+        crop_by_pixels(w_pixel = args.width, h_pixel = args.height, source = args.src, destination = args.dest)
     else:
         print('Invalid arguments passed, please check help')
 
