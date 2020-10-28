@@ -56,7 +56,7 @@ def test_readme_file_for_formatting():
 def test_indentations():
     ''' Returns pass if used four spaces for each level of syntactically
     significant indenting.'''
-    if not module:
+    if not ip_modules:
         for module in ip_modules:
             lines = inspect.getsource(module)
             spaces = re.findall('\n +.', lines)
@@ -380,6 +380,8 @@ def reset_folder(source, oput, master):
     filenames = os.listdir(oput)
     if filenames:
         for fl in filenames:
+            if fl == 'dummy.txt':
+                continue
             try:
                 os.unlink(os.path.join(oput, fl))
             except OSError:
