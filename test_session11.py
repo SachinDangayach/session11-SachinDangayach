@@ -3,7 +3,6 @@ import re
 import inspect
 import os
 import shutil
-import subprocess
 import sys
 import test_session11
 from image_processing_module import convert_jpg_to_png
@@ -57,12 +56,13 @@ def test_readme_file_for_formatting():
 def test_indentations():
     ''' Returns pass if used four spaces for each level of syntactically
     significant indenting.'''
-    for module in ip_modules:
-        lines = inspect.getsource(module)
-        spaces = re.findall('\n +.', lines)
-        for space in spaces:
-            assert len(space) % 4 == 2, f"Your script contains misplaced indentations"
-            assert len(re.sub(r'[^ ]', '', space)) % 4 == 0, "Your code indentation does not follow PEP8 guidelines"
+    if not module:
+        for module in ip_modules:
+            lines = inspect.getsource(module)
+            spaces = re.findall('\n +.', lines)
+            for space in spaces:
+                assert len(space) % 4 == 2, f"Your script contains misplaced indentations"
+                assert len(re.sub(r'[^ ]', '', space)) % 4 == 0, "Your code indentation does not follow PEP8 guidelines"
 
 def test_function_name_had_cap_letter():
     """Check no capital letters are used in function names"""
@@ -391,6 +391,3 @@ def reset_folder(source, oput, master):
             shutil.copy(os.path.join(master, fl), os.path.join(source, fl))
         except OSError:
             print('files not moved')
-
-# code=subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-# assert len(list(code.stdout.decode('utf-8'))) > 0, 'not executable in cmd'
