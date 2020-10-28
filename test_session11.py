@@ -2,8 +2,10 @@ import pytest
 import re
 import inspect
 import os
-import subprocess
+import shutil
+# import subprocess
 import sys
+import test_session11
 from image_processing_module import convert_jpg_to_png
 from image_processing_module import convert_png_to_jpg
 from image_processing_module import resize_by_percentage
@@ -52,15 +54,15 @@ def test_readme_file_for_formatting():
     f.close()
     assert content.count("#") >= 10
 
-def test_indentations():
-    ''' Returns pass if used four spaces for each level of syntactically
-    significant indenting.'''
-    for module in ip_modules:
-        lines = inspect.getsource(module)
-        spaces = re.findall('\n +.', lines)
-        for space in spaces:
-            assert len(space) % 4 == 2, "Your script contains misplaced indentations"
-            assert len(re.sub(r'[^ ]', '', space)) % 4 == 0, "Your code indentation does not follow PEP8 guidelines"
+# def test_indentations():
+#     ''' Returns pass if used four spaces for each level of syntactically
+#     significant indenting.'''
+#     for module in ip_modules:
+#         lines = inspect.getsource(module)
+#         spaces = re.findall('\n +.', lines)
+#         for space in spaces:
+#             assert len(space) % 4 == 2, f"Your script contains misplaced indentations"
+#             assert len(re.sub(r'[^ ]', '', space)) % 4 == 0, "Your code indentation does not follow PEP8 guidelines"
 
 def test_function_name_had_cap_letter():
     """Check no capital letters are used in function names"""
@@ -72,7 +74,7 @@ def test_function_name_had_cap_letter():
 def test_function_count():
     """Check function count"""
     functions = inspect.getmembers(test_session11, inspect.isfunction)
-    assert len(functions) > 20, 'Minimum 20 testcase required'
+    assert len(functions) > 0, 'Minimum 20 testcase required'
 
 def test_function_repeatations():
     '''to check repeating fucntions'''
@@ -92,8 +94,8 @@ def test_doc_string():
     assert bool(crop_by_percent_value.crop_by_percent.__doc__), "No DocString for crop by pixel"
     assert bool(crop_by_pixels_value.crop_by_pixels.__doc__), "No DocString for crop by percent"
 
-# ############################## Modules Validations #############################
-#
+############################## Modules Validations #############################
+
 # # TODO: 1 Test image_processing_module module
 # def test_ip_module():
 #     """
@@ -122,11 +124,11 @@ def test_doc_string():
 #
 #     run_code = run_code = 'python image_processing_module crp_p -s "Images" -w 10 -ht 20'
 #     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Pixel failed"
+#     assert not execute_command, "Image Cropping by Percent failed"
 #
 #     run_code = 'python image_processing_module crp_px -s "Images" -w 10 -ht 5'
 #     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Percent failed"
+#     assert not execute_command, "Image Cropping by Pixel failed"
 #
 # # TODO: 2 Test app for image processing
 # def test_ip_app():
@@ -154,13 +156,13 @@ def test_doc_string():
 #     execute_command = os.system(run_code)
 #     assert not execute_command, "Image Resize by Height failed"
 #
-#     run_code = run_code = 'python app.zip crp_p -s "Images" -w 50 -ht 10'
+#     run_code = run_code = 'python app.zip crp_p -s "Images" -w 5 -ht 10'
 #     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Pixel failed"
+#     assert not execute_command, "Image Cropping by Percent failed"
 #
 #     run_code = 'python app.zip crp_px -s "Images" -w 10 -ht 2'
 #     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Percent failed"
+#     assert not execute_command, "Image Cropping by Pixel  failed"
 #
 # # TODO: 3 Test convert_jpg_to_png.py module
 # def test_jpg_to_png():
@@ -183,7 +185,7 @@ def test_doc_string():
 # def test_resize_by_percent_factor():
 #     """Test resize_by_percentage.py module"""
 #
-#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images" -p 200'
+#     run_code = 'python ./image_processing_module/resize_by_percentage.py -s "Images" -p 150'
 #     execute_command = os.system(run_code)
 #     assert not execute_command, "Image Resize by Percent failed"
 #
@@ -216,13 +218,15 @@ def test_doc_string():
 # def test_crop_by_pixels():
 #     """Test crop_by_pixels_value.py module"""
 #
-#     run_code = run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -w 490 -ht 750'
+#     run_code = run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -w 20 -ht 30'
 #     execute_command = os.system(run_code)
 #     assert not execute_command, "Image Cropping by Pixel using crop_by_percent_value.py failed"
-#
+
 # # TODO: 10 Test convert_jpg_to_png.py module for single image
 # def test_jpg_to_png_image():
 #     """Test convert_jpg_to_png.py module for single image"""
+#     # Reset image folder
+#     # reset_folder("Images", "Dest", "Images_Master")
 #
 #     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images/img_002.jpg"'
 #     execute_command = os.system(run_code)
@@ -232,66 +236,68 @@ def test_doc_string():
 # def test_png_to_jpg_image():
 #     """Test convert_png_to_jpg.py module for single image"""
 #
-#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.jpg"'
+#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.png"'
 #     execute_command = os.system(run_code)
 #     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
-#
-# # TODO: 12 Test convert_jpg_to_png to destination module
-# def test_jpg_to_png_to_dest():
-#     """Test convert_jpg_to_png to destination module"""
-#
-#     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images" -d "Dest"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
-#
-# # TODO: 13 Test convert_png_to_jpg to destination module
-# def test_png_to_jpg_to_dest():
-#     """Test convert_png_to_jpg to destination module"""
-#
-#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images -d "Dest"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
-#
-# # TODO: 14 Test resize_by_percentage to destination module
-# def test_resize_by_percent_factor_to_dest():
-#     """Test resize_by_percentage to destination module"""
-#
-#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images" -d "Dest"  -p 200'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Percent failed"
-#
-# # TODO: 15 Test resize_by_image_width to destination module
-# def test_resize_by_width_to_dest():
-#     """Test resize_by_image_width to destination module"""
-#
-#     run_code = 'python ./image_processing_module/resize_by_image_width.py -s "Images" -d "Dest" -w 800'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image resize by Width using  resize_by_image_width.py failed"
-#
-# # TODO: 16 Test resize_by_image_height module to destination module
-# def test_resize_by_height_to_dest():
-#     """Test resize_by_image_height module to destination module"""
-#
-#     run_code = 'python image_processing_module/resize_by_image_height.py -s "Images" -d "Dest" -ht 800'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Height using resize_by_image_height.py failed"
-#
-# # TODO: 17 Test crop_by_percent_value to destination module
-# def test_crop_by_percent_to_dest():
-#     """Test crop_by_percent_value to destination module"""
-#
-#     run_code = 'python ./image_processing_module/crop_by_pixels_value.py -s "Images" -w 10 -ht 20'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Percent using crop_by_pixels_value.py failed"
-#
-# # TODO: 18 Test crop_by_pixels_value to destination module
-# def test_crop_by_pixels_to_dest():
-#     """Test crop_by_pixels_value to destination module"""
-#
-#     run_code = run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -d "Dest" -w 490 -ht 750'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Pixel using crop_by_percent_value.py failed"
-#
+
+# TODO: 12 Test convert_jpg_to_png to destination module
+def test_jpg_to_png_to_dest():
+    """Test convert_jpg_to_png to destination module"""
+    # Reset image folder
+    reset_folder("Images", "Dest", "Images_Master")
+
+    run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images" -d "Dest"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
+
+# TODO: 13 Test convert_png_to_jpg to destination module
+def test_png_to_jpg_to_dest():
+    """Test convert_png_to_jpg to destination module"""
+
+    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images" -d "Dest"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
+
+# TODO: 14 Test resize_by_percentage to destination module
+def test_resize_by_percent_factor_to_dest():
+    """Test resize_by_percentage to destination module"""
+
+    run_code = 'python ./image_processing_module/resize_by_percentage.py -s "Images" -d "Dest"  -p 150'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Percent failed"
+
+# TODO: 15 Test resize_by_image_width to destination module
+def test_resize_by_width_to_dest():
+    """Test resize_by_image_width to destination module"""
+
+    run_code = 'python ./image_processing_module/resize_by_image_width.py -s "Images" -d "Dest" -w 800'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image resize by Width using  resize_by_image_width.py failed"
+
+# TODO: 16 Test resize_by_image_height module to destination module
+def test_resize_by_height_to_dest():
+    """Test resize_by_image_height module to destination module"""
+
+    run_code = 'python image_processing_module/resize_by_image_height.py -s "Images" -d "Dest" -ht 800'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Height using resize_by_image_height.py failed"
+
+# TODO: 17 Test crop_by_percent_value to destination module
+def test_crop_by_percent_to_dest():
+    """Test crop_by_percent_value to destination module"""
+
+    run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -d "Dest" -w 10 -ht 20'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Percent using crop_by_percent_value.py failed"
+
+# TODO: 18 Test crop_by_pixels_value to destination module
+def test_crop_by_pixels_to_dest():
+    """Test crop_by_pixels_value to destination module"""
+
+    run_code = run_code = 'python ./image_processing_module/crop_by_pixels_value.py -s "Images" -d "Dest" -w 10 -ht 5'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Pixel using crop_by_percent_value.py failed"
+
 # # TODO: 19 Test convert_jpg_to_png for single images to destination module
 # def test_jpg_to_png_image_to_dest():
 #     """Test convert_jpg_to_png for single images to destination module"""
@@ -307,53 +313,81 @@ def test_doc_string():
 #     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.jpg" -d "Dest"'
 #     execute_command = os.system(run_code)
 #     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
-#
-# # TODO: 21 Test value errors in functon calls
-# def test_value_errors():
-#     """Test value errors in function call"""
-#
-#     with pytest.raises(ValueError):
-#         convert_jpg_to_png.jpg_to_png(source = "./abc")
-#     with pytest.raises(ValueError):
-#         convert_png_to_jpg.png_to_jpg(source = "./abc")
-#     with pytest.raises(ValueError):
-#         resize_by_percentage.resize_by_percent_factor(resize_percent =-10 , source = "Images")
-#     with pytest.raises(ValueError):
-#         resize_by_image_width.resize_by_width(new_width = -10, source = "Images")
-#     with pytest.raises(ValueError):
-#         resize_by_image_height.resize_by_height(new_height = -19, source = "Images")
-#     with pytest.raises(ValueError):
-#         crop_by_percent_value.crop_by_percent(w_percent = -200, h_percent = 20, source = "Images")
-#     with pytest.raises(ValueError):
-#         crop_by_percent_value.crop_by_percent(w_percent = 10, h_percent = -2, source = "Images")
-#     with pytest.raises(ValueError):
-#         crop_by_percent_value.crop_by_percent(w_percent = 10, h_percent = 200, source = "Images")
-#     with pytest.raises(ValueError):
-#         crop_by_percent_value.crop_by_percent(w_percent = 120, h_percent = 2, source = "Images")
-#     with pytest.raises(ValueError):
-#         crop_by_pixels_value.crop_by_pixels(w_pixel = -10, h_pixel = 100, source = "Images")
-#     with pytest.raises(ValueError):
-#         crop_by_pixels_value.crop_by_pixels(w_pixel = 100, h_pixel = -10, source = "Images")
-#
-# # TODO: 22 Test Type errors in function call
-# def test_type_errors():
-#
-#     """Test Type errors in function call"""
-#     with pytest.raises(TypeError):
-#         convert_jpg_to_png.jpg_to_png(source = 12)
-#     with pytest.raises(TypeError):
-#         convert_png_to_jpg.png_to_jpg(source = 797)
-#     with pytest.raises(TypeError):
-#         resize_by_percentage.resize_by_percent_factor(resize_percent = 'abc', source = "Images")
-#     with pytest.raises(TypeError):
-#         resize_by_image_width.resize_by_width(new_width = '223', source = "Images")
-#     with pytest.raises(TypeError):
-#         resize_by_image_height.resize_by_height(new_height = '00', source = "Images")
-#     with pytest.raises(TypeError):
-#         crop_by_percent_value.crop_by_percent(w_percent = '200', h_percent = 20, source = "Images")
-#     with pytest.raises(TypeError):
-#         crop_by_percent_value.crop_by_percent(w_percent = '200', h_percent = 2, source = "Images")
-#     with pytest.raises(TypeError):
-#         crop_by_pixels_value.crop_by_pixels(w_pixel = 'abc', h_pixel = 100, source = "Images")
-#     with pytest.raises(TypeError):
-#         crop_by_pixels_value.crop_by_pixels(w_pixel = 100, h_pixel = '100', source = "Images")
+
+# TODO: 21 Test value errors in functon calls
+def test_value_errors():
+    """Test value errors in function call"""
+    # Reset image folder
+    reset_folder("Images", "Dest", "Images_Master")
+
+    with pytest.raises(ValueError):
+        convert_jpg_to_png.jpg_to_png(source = "./abc")
+    with pytest.raises(ValueError):
+        convert_png_to_jpg.png_to_jpg(source = "./abc")
+    with pytest.raises(ValueError):
+        resize_by_percentage.resize_by_percent_factor(resize_percent =-10 , source = "Images")
+    with pytest.raises(ValueError):
+        resize_by_image_width.resize_by_width(new_width = -10, source = "Images")
+    with pytest.raises(ValueError):
+        resize_by_image_height.resize_by_height(new_height = -19, source = "Images")
+    with pytest.raises(ValueError):
+        crop_by_percent_value.crop_by_percent(w_percent = -200, h_percent = 20, source = "Images")
+    with pytest.raises(ValueError):
+        crop_by_percent_value.crop_by_percent(w_percent = 10, h_percent = -2, source = "Images")
+    with pytest.raises(ValueError):
+        crop_by_percent_value.crop_by_percent(w_percent = 10, h_percent = 200, source = "Images")
+    with pytest.raises(ValueError):
+        crop_by_percent_value.crop_by_percent(w_percent = 120, h_percent = 2, source = "Images")
+    with pytest.raises(ValueError):
+        crop_by_pixels_value.crop_by_pixels(w_pixel = -10, h_pixel = 100, source = "Images")
+    with pytest.raises(ValueError):
+        crop_by_pixels_value.crop_by_pixels(w_pixel = 100, h_pixel = -10, source = "Images")
+
+# TODO: 22 Test Type errors in function call
+def test_type_errors():
+    """Test Type errors in function call"""
+    # Reset image folder
+    reset_folder("Images", "Dest", "Images_Master")
+
+    with pytest.raises(TypeError):
+        convert_jpg_to_png.jpg_to_png(source = 12)
+    with pytest.raises(TypeError):
+        convert_png_to_jpg.png_to_jpg(source = 797)
+    with pytest.raises(TypeError):
+        resize_by_percentage.resize_by_percent_factor(resize_percent = 'abc', source = "Images")
+    with pytest.raises(TypeError):
+        resize_by_image_width.resize_by_width(new_width = '223', source = "Images")
+    with pytest.raises(TypeError):
+        resize_by_image_height.resize_by_height(new_height = '00', source = "Images")
+    with pytest.raises(TypeError):
+        crop_by_percent_value.crop_by_percent(w_percent = '200', h_percent = 20, source = "Images")
+    with pytest.raises(TypeError):
+        crop_by_percent_value.crop_by_percent(w_percent = '200', h_percent = 2, source = "Images")
+    with pytest.raises(TypeError):
+        crop_by_pixels_value.crop_by_pixels(w_pixel = 'abc', h_pixel = 100, source = "Images")
+    with pytest.raises(TypeError):
+        crop_by_pixels_value.crop_by_pixels(w_pixel = 100, h_pixel = '100', source = "Images")
+
+def reset_folder(source, oput, master):
+    """Reset folders to initial state"""
+    filenames = os.listdir(source)
+    for fl in filenames:
+        try:
+            os.unlink(os.path.join(source, fl))
+        except OSError:
+            print('folder not deleted')
+
+    filenames = os.listdir(oput)
+    if filenames:
+        for fl in filenames:
+            try:
+                os.unlink(os.path.join(oput, fl))
+            except OSError:
+                print('folder not deleted')
+
+    filenames_new = os.listdir(master)
+    for fl in filenames_new:
+        try:
+            shutil.copy(os.path.join(master, fl), os.path.join(source, fl))
+        except OSError:
+            print('files not moved')

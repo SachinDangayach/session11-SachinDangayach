@@ -33,7 +33,8 @@ def resize_by_percent_factor(resize_percent, source, destination=''):
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
 
-    if (destination == '' or destination == None) and os.path.isdir(source): # source and destination are same folders
+    # source and destination are same folders
+    if (destination == '' or destination == None) and os.path.isdir(source):
         destination = source
 
     if not os.path.isdir(destination): # destination has to be folder
@@ -49,7 +50,8 @@ def resize_by_percent_factor(resize_percent, source, destination=''):
 
     for fl in filenames:
         file, extension = os.path.splitext(fl)
-        if extension not in {'.png','.jpeg','.jpg'}: # Check for image files in folder
+        # Check for image files in folder
+        if extension not in {'.png','.jpeg','.jpg'}:
             print(f"Can't resize {fl}")
             failed_files.append(fl)
             continue

@@ -43,7 +43,7 @@ Module resize_by_percentage
         and h_pixel = 20%, new size of the image will be 90 X 80 cropped from center
 
 ### 4. crop_by_pixels : center square/rectangle crop by user-determined pixels ( crp_px is arg from main)
-Module resize_by_image_width
+Module crop_by_pixels_value
     crop the image by given pixels
     usage: crop_by_pixels_value.py [-w --wdth] [-h --hgth] [-s --src] [-d --dest] [-h --help]
 

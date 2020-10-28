@@ -58,7 +58,7 @@ if __name__ == "__main__":
             resize_by_image_width.resize_by_width(new_width = args.width, source = args.src, destination = args.dest)
         elif(sys.argv[1] == 'res_h'):
             resize_by_image_height.resize_by_height(new_height = args.height, source = args.src, destination = args.dest)
-        elif(sys.argv[1] == 'crp_px'):
-            crop_by_percent_value.crop_by_percent(w_percent = args.width, h_percent = args.height, source = args.src, destination = args.dest)
         elif(sys.argv[1] == 'crp_p'):
+            crop_by_percent_value.crop_by_percent(w_percent = args.width, h_percent = args.height, source = args.src, destination = args.dest)
+        elif(sys.argv[1] == 'crp_px'):
             crop_by_pixels_value.crop_by_pixels(w_pixel = args.width, h_pixel = args.height, source = args.src, destination = args.dest)

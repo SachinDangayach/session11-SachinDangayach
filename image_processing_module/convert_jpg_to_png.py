@@ -27,7 +27,8 @@ def jpg_to_png(source, destination=''):
     if not (os.path.isfile(source) or os.path.isdir(source)):
         raise ValueError(f"Source {source} has to be file or a folder path")
 
-    if (destination == '' or destination == None) and os.path.isdir(source): # source and destination are same folders
+    # source and destination are same folders
+    if (destination == '' or destination == None) and os.path.isdir(source):
         destination = source
     elif (destination == '' or destination == None) and os.path.isfile(source):
         destination = source.rsplit("\\",1)[0]

@@ -5,7 +5,7 @@ from PIL import Image
 import argparse
 
 # TODO: 4.2 centre square/rectangle crop by user-determined percentage (crop to 50%/70%) crp_p
-def crop_by_percent(w_percent, h_percent, source, destination):
+def crop_by_percent(w_percent, h_percent, source, destination=''):
     """
     crop the image by given pixels precentage
     usage: crop_by_percent_value.py [-w --wdth] [-h --hgth] [-s --src] [-d --dest] [-h --help]
@@ -33,7 +33,7 @@ def crop_by_percent(w_percent, h_percent, source, destination):
     if not isinstance(w_percent, int):
         raise TypeError(f"Invalid width % value {w_percent}")
 
-    if not isinstance(h_pixel, int):
+    if not isinstance(h_percent, int):
         raise TypeError(f"Invalid height % value {h_percent}")
 
     if not os.path.isdir(source):
@@ -45,16 +45,10 @@ def crop_by_percent(w_percent, h_percent, source, destination):
     if not os.path.isdir(destination):
         raise ValueError(f"Destination {destination} in not a folder path")
 
-    if not isinstance(w_percent, int):
-        raise ValueError(f"Invalid Source {w_percent}")
-
-    if w_percent <= 0 and w_percent<100:
+    if w_percent <= 0 or w_percent>=100:
         raise ValueError(f"Width percentage value should be greater than 0 and less than 100")
 
-    if not isinstance(h_percent, int):
-        raise ValueError(f"Invalid Source {h_percent}")
-
-    if h_percent <= 0 and w_percent<100:
+    if h_percent <= 0 or h_percent>=100:
         raise ValueError(f"Height percentage value should be greater than 0 and less than 100")
 
     cropped_files = []
@@ -71,11 +65,6 @@ def crop_by_percent(w_percent, h_percent, source, destination):
         try:
             img = Image.open(os.path.join(source, fl))
             w, h = img.size # Get size of image
-            if w_percent > 100 or h_percent >100:
-                print(f"Image {fl} can't be cropped more than 100% of its size")
-                img.close()
-                failed_files.append(fl)
-                continue
 
             w_pixel = int(w*w_percent/100)
             h_pixel = int(h*h_percent/100)
