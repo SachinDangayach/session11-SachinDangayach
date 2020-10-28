@@ -28,7 +28,13 @@ def crop_by_percent(w_percent, h_percent, source, destination):
         raise ValueError(f"Invalid Source")
 
     if not isinstance(source, str):
-        raise ValueError(f"Invalid Source {source}")
+        raise TypeError(f"Invalid Source {source}")
+
+    if not isinstance(w_percent, int):
+        raise TypeError(f"Invalid width % value {w_percent}")
+
+    if not isinstance(h_pixel, int):
+        raise TypeError(f"Invalid height % value {h_percent}")
 
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")

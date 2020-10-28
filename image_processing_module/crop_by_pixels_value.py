@@ -27,7 +27,13 @@ def crop_by_pixels(w_pixel, h_pixel, source, destination=''):
         raise ValueError(f"Invalid Source")
 
     if not isinstance(source, str):
-        raise ValueError(f"Invalid Source {source}")
+        raise TypeError(f"Invalid Source {source}")
+
+    if not isinstance(w_pixel, int):
+        raise TypeError(f"Invalid width value {w_pixel}")
+
+    if not isinstance(h_pixel, int):
+        raise TypeError(f"Invalid height value {h_pixel}")
 
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
@@ -38,14 +44,8 @@ def crop_by_pixels(w_pixel, h_pixel, source, destination=''):
     if not os.path.isdir(destination):
         raise ValueError(f"Destination {destination} in not a folder path")
 
-    if not isinstance(w_pixel, int):
-        raise ValueError(f"Invalid Source {w_pixel}")
-
     if w_pixel <= 0:
         raise ValueError(f"Width pixel value should be greater than 0")
-
-    if not isinstance(h_pixel, int):
-        raise ValueError(f"Invalid Source {h_pixel}")
 
     if h_pixel <= 0:
         raise ValueError(f"Height pixel value should be greater than 0")

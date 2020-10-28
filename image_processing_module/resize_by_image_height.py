@@ -29,7 +29,10 @@ def resize_by_height(new_height, source, destination=''):
         raise ValueError(f"Invalid Source")
 
     if not isinstance(source, str):
-        raise ValueError(f"Invalid Source {source}")
+        raise TypeError(f"Invalid Source {source}")
+
+    if not isinstance(new_height, int):
+        raise TypeError(f"Invalid height value {new_height}")
 
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
@@ -39,9 +42,6 @@ def resize_by_height(new_height, source, destination=''):
 
     if not os.path.isdir(destination):
         raise ValueError(f"Destination {destination} in not a folder path")
-
-    if not isinstance(new_height, int):
-        raise ValueError(f"Invalid Source {new_height}")
 
     if new_height <= 0:
         raise ValueError(f"Height value should be greater than 0")

@@ -22,7 +22,7 @@ def png_to_jpg(source, destination=''):
         raise ValueError(f"Invalid Source")
 
     if not isinstance(source, str):
-        raise ValueError(f"Invalid Source {source}")
+        raise TypeError(f"Invalid Source {source}")
 
     if not (os.path.isfile(source) or os.path.isdir(source)):
         raise ValueError(f"Source {source} has to be file or a folder path")

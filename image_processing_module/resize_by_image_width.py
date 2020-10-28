@@ -28,7 +28,10 @@ def resize_by_width(new_width, source, destination=''):
         raise ValueError(f"Invalid Source")
 
     if not isinstance(source, str):
-        raise ValueError(f"Invalid Source {source}")
+        raise TypeError(f"Invalid Source {source}")
+
+    if not isinstance(new_width, int):
+        raise TypeError(f"Invalid width value {new_width}")
 
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
@@ -38,9 +41,6 @@ def resize_by_width(new_width, source, destination=''):
 
     if not os.path.isdir(destination):
         raise ValueError(f"Destination {destination} in not a folder path")
-
-    if not isinstance(new_width, int):
-        raise ValueError(f"Invalid Source {new_width}")
 
     if new_width <= 0:
         raise ValueError(f"Width value should be greater than 0")

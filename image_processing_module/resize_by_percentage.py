@@ -25,7 +25,10 @@ def resize_by_percent_factor(resize_percent, source, destination=''):
         raise ValueError(f"Invalid Source")
 
     if not isinstance(source, str):
-        raise ValueError(f"Invalid Source {source}")
+        raise TypeError(f"Invalid Source {source}")
+
+    if not isinstance(resize_percent, int):
+        raise TypeError(f"Invalid percentage value {resize_percent}")
 
     if not os.path.isdir(source):
         raise ValueError(f"Source {source} has to be folder path")
@@ -35,9 +38,6 @@ def resize_by_percent_factor(resize_percent, source, destination=''):
 
     if not os.path.isdir(destination): # destination has to be folder
         raise ValueError(f"Destination {destination} in not a valid folder path")
-
-    if not isinstance(resize_percent, int):
-        raise ValueError(f"Invalid Source {resize_percent}")
 
     if resize_percent <= 0:
         raise ValueError(f"Resize percent value should be greater than 0")
