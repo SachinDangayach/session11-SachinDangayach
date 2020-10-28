@@ -31,7 +31,7 @@ def png_to_jpg(source, destination=''):
     if (destination == '' or destination == None) and os.path.isdir(source):
         destination = source
     elif (destination == '' or destination == None) and os.path.isfile(source):
-        destination = source.rsplit("\\",1)[0]
+        destination = os.path.dirname(source)
 
     if not os.path.isdir(destination):
         raise ValueError(f"Destination {destination} in not a folder path")
@@ -42,7 +42,8 @@ def png_to_jpg(source, destination=''):
     target = '.jpg'
 
     if os.path.isfile(source):
-        source, file_name = source.rsplit("\\",1)
+        file_name = os.path.basename(source)
+        source    = os.path.dirname(source)
         filenames.append(file_name)
     elif os.path.isdir(source):
         filenames = os.listdir(source)

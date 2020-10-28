@@ -3,7 +3,7 @@ import re
 import inspect
 import os
 import shutil
-# import subprocess
+import subprocess
 import sys
 import test_session11
 from image_processing_module import convert_jpg_to_png
@@ -54,15 +54,15 @@ def test_readme_file_for_formatting():
     f.close()
     assert content.count("#") >= 10
 
-# def test_indentations():
-#     ''' Returns pass if used four spaces for each level of syntactically
-#     significant indenting.'''
-#     for module in ip_modules:
-#         lines = inspect.getsource(module)
-#         spaces = re.findall('\n +.', lines)
-#         for space in spaces:
-#             assert len(space) % 4 == 2, f"Your script contains misplaced indentations"
-#             assert len(re.sub(r'[^ ]', '', space)) % 4 == 0, "Your code indentation does not follow PEP8 guidelines"
+def test_indentations():
+    ''' Returns pass if used four spaces for each level of syntactically
+    significant indenting.'''
+    for module in ip_modules:
+        lines = inspect.getsource(module)
+        spaces = re.findall('\n +.', lines)
+        for space in spaces:
+            assert len(space) % 4 == 2, f"Your script contains misplaced indentations"
+            assert len(re.sub(r'[^ ]', '', space)) % 4 == 0, "Your code indentation does not follow PEP8 guidelines"
 
 def test_function_name_had_cap_letter():
     """Check no capital letters are used in function names"""
@@ -96,155 +96,155 @@ def test_doc_string():
 
 ############################## Modules Validations #############################
 
-# # TODO: 1 Test image_processing_module module
-# def test_ip_module():
-#     """
-#     Test to check the image processing module is working
-#     """
-#
-#     run_code = 'python image_processing_module j2p -s "Images"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "JPG to PNG Conversion failed"
-#
-#     run_code = 'python image_processing_module p2j -s "Images"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "PNG to JPG Conversion failed"
-#
-#     run_code = 'python image_processing_module res_p -s "Images" -p 80'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Percent failed"
-#
-#     run_code = 'python image_processing_module res_w -s "Images" -w 800'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Width failed"
-#
-#     run_code = 'python image_processing_module res_h -s "Images" -ht 800'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Height failed"
-#
-#     run_code = run_code = 'python image_processing_module crp_p -s "Images" -w 10 -ht 20'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Percent failed"
-#
-#     run_code = 'python image_processing_module crp_px -s "Images" -w 10 -ht 5'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Pixel failed"
-#
-# # TODO: 2 Test app for image processing
-# def test_ip_app():
-#     """
-#     Test to check the app.zip for image processing module is working
-#     """
-#
-#     run_code = 'python app.zip j2p -s "Images"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "JPG to PNG Conversion failed"
-#
-#     run_code = 'python app.zip p2j -s "Images"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "PNG to JPG Conversion failed"
-#
-#     run_code = 'python app.zip res_p -s "Images" -p 150'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Percent failed"
-#
-#     run_code = 'python app.zip res_w -s "Images" -w 800'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Width failed"
-#
-#     run_code = 'python app.zip res_h -s "Images" -ht 2000'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Height failed"
-#
-#     run_code = run_code = 'python app.zip crp_p -s "Images" -w 5 -ht 10'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Percent failed"
-#
-#     run_code = 'python app.zip crp_px -s "Images" -w 10 -ht 2'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Pixel  failed"
-#
-# # TODO: 3 Test convert_jpg_to_png.py module
-# def test_jpg_to_png():
-#     """Test convert_jpg_to_png.py module """
-#
-#     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
-#
-# # TODO: 4 Test convert_png_to_jpg.py module
-# def test_png_to_jpg():
-#     """Test convert_png_to_jpg.py module"""
-#
-#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
-#
-#
-# # TODO: 5 Test resize_by_percentage.py module
-# def test_resize_by_percent_factor():
-#     """Test resize_by_percentage.py module"""
-#
-#     run_code = 'python ./image_processing_module/resize_by_percentage.py -s "Images" -p 150'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Percent failed"
-#
-#
-# # TODO: 6 Test resize_by_image_width.py module
-# def test_resize_by_width():
-#     """Test resize_by_image_width.py module"""
-#
-#     run_code = 'python ./image_processing_module/resize_by_image_width.py -s "Images" -w 800'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image resize by Width using  resize_by_image_width.py failed"
-#
-# # TODO: 7 Test resize_by_image_height.py module
-# def test_resize_by_height():
-#     """Test resize_by_image_height.py module"""
-#
-#     run_code = 'python image_processing_module/resize_by_image_height.py -s "Images" -ht 800'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Resize by Height using resize_by_image_height.py failed"
-#
-# # TODO: 8 Test crop_by_percent_value.py module
-# def test_crop_by_percent():
-#     """Test crop_by_percent_value.py module"""
-#
-#     run_code = 'python ./image_processing_module/crop_by_pixels_value.py -s "Images" -w 10 -ht 20'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Percent using crop_by_pixels_value.py failed"
-#
-# # TODO: 9 Test crop_by_pixels_value module
-# def test_crop_by_pixels():
-#     """Test crop_by_pixels_value.py module"""
-#
-#     run_code = run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -w 20 -ht 30'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Image Cropping by Pixel using crop_by_percent_value.py failed"
+# TODO: 1 Test image_processing_module module
+def test_ip_module():
+    """
+    Test to check the image processing module is working
+    """
 
-# # TODO: 10 Test convert_jpg_to_png.py module for single image
-# def test_jpg_to_png_image():
-#     """Test convert_jpg_to_png.py module for single image"""
-#     # Reset image folder
-#     # reset_folder("Images", "Dest", "Images_Master")
-#
-#     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images/img_002.jpg"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
-#
-# # TODO: 11 Test convert_png_to_jpg.py module for single image
-# def test_png_to_jpg_image():
-#     """Test convert_png_to_jpg.py module for single image"""
-#
-#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.png"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
+    run_code = 'python image_processing_module j2p -s "Images"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "JPG to PNG Conversion failed"
+
+    run_code = 'python image_processing_module p2j -s "Images"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "PNG to JPG Conversion failed"
+
+    run_code = 'python image_processing_module res_p -s "Images" -p 80'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Percent failed"
+
+    run_code = 'python image_processing_module res_w -s "Images" -w 800'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Width failed"
+
+    run_code = 'python image_processing_module res_h -s "Images" -ht 800'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Height failed"
+
+    run_code = run_code = 'python image_processing_module crp_p -s "Images" -w 10 -ht 20'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Percent failed"
+
+    run_code = 'python image_processing_module crp_px -s "Images" -w 10 -ht 5'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Pixel failed"
+
+# TODO: 2 Test app for image processing
+def test_ip_app():
+    """
+    Test to check the app.zip for image processing module is working
+    """
+
+    run_code = 'python app.zip j2p -s "Images"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "JPG to PNG Conversion failed"
+
+    run_code = 'python app.zip p2j -s "Images"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "PNG to JPG Conversion failed"
+
+    run_code = 'python app.zip res_p -s "Images" -p 150'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Percent failed"
+
+    run_code = 'python app.zip res_w -s "Images" -w 800'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Width failed"
+
+    run_code = 'python app.zip res_h -s "Images" -ht 2000'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Height failed"
+
+    run_code = run_code = 'python app.zip crp_p -s "Images" -w 5 -ht 10'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Percent failed"
+
+    run_code = 'python app.zip crp_px -s "Images" -w 10 -ht 2'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Pixel  failed"
+
+# TODO: 3 Test convert_jpg_to_png.py module
+def test_jpg_to_png():
+    """Test convert_jpg_to_png.py module """
+
+    run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
+
+# TODO: 4 Test convert_png_to_jpg.py module
+def test_png_to_jpg():
+    """Test convert_png_to_jpg.py module"""
+
+    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
+
+
+# TODO: 5 Test resize_by_percentage.py module
+def test_resize_by_percent_factor():
+    """Test resize_by_percentage.py module"""
+
+    run_code = 'python ./image_processing_module/resize_by_percentage.py -s "Images" -p 150'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Percent failed"
+
+
+# TODO: 6 Test resize_by_image_width.py module
+def test_resize_by_width():
+    """Test resize_by_image_width.py module"""
+
+    run_code = 'python ./image_processing_module/resize_by_image_width.py -s "Images" -w 800'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image resize by Width using  resize_by_image_width.py failed"
+
+# TODO: 7 Test resize_by_image_height.py module
+def test_resize_by_height():
+    """Test resize_by_image_height.py module"""
+
+    run_code = 'python ./image_processing_module/resize_by_image_height.py -s "Images" -ht 800'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Resize by Height using resize_by_image_height.py failed"
+
+# TODO: 8 Test crop_by_percent_value.py module
+def test_crop_by_percent():
+    """Test crop_by_percent_value.py module"""
+
+    run_code = 'python ./image_processing_module/crop_by_pixels_value.py -s "Images" -w 10 -ht 20'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Percent using crop_by_pixels_value.py failed"
+
+# TODO: 9 Test crop_by_pixels_value module
+def test_crop_by_pixels():
+    """Test crop_by_pixels_value.py module"""
+
+    run_code = run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -w 20 -ht 30'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Image Cropping by Pixel using crop_by_percent_value.py failed"
+
+# TODO: 10 Test convert_jpg_to_png.py module for single image
+def test_jpg_to_png_image():
+    """Test convert_jpg_to_png.py module for single image"""
+    # Reset image folder
+    # reset_folder("Images", "Dest", "Images_Master")
+
+    run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images/img_002.jpg"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
+
+# TODO: 11 Test convert_png_to_jpg.py module for single image
+def test_png_to_jpg_image():
+    """Test convert_png_to_jpg.py module for single image"""
+
+    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.png"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
 
 # TODO: 12 Test convert_jpg_to_png to destination module
 def test_jpg_to_png_to_dest():
     """Test convert_jpg_to_png to destination module"""
     # Reset image folder
-    reset_folder("./Images", "./Dest", "Images_Master")
+    reset_folder("Images", "Dest", "Images_Master")
 
     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images" -d "Dest"'
     execute_command = os.system(run_code)
@@ -278,7 +278,7 @@ def test_resize_by_width_to_dest():
 def test_resize_by_height_to_dest():
     """Test resize_by_image_height module to destination module"""
 
-    run_code = 'python image_processing_module/resize_by_image_height.py -s "Images" -d "Dest" -ht 800'
+    run_code = 'python ./image_processing_module/resize_by_image_height.py -s "Images" -d "Dest" -ht 800'
     execute_command = os.system(run_code)
     assert not execute_command, "Image Resize by Height using resize_by_image_height.py failed"
 
@@ -298,21 +298,21 @@ def test_crop_by_pixels_to_dest():
     execute_command = os.system(run_code)
     assert not execute_command, "Image Cropping by Pixel using crop_by_percent_value.py failed"
 
-# # TODO: 19 Test convert_jpg_to_png for single images to destination module
-# def test_jpg_to_png_image_to_dest():
-#     """Test convert_jpg_to_png for single images to destination module"""
-#
-#     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images/img_002.jpg" -d "Dest"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
-#
-# # TODO: 20 Test convert_png_to_jpg for single images to destination module
-# def test_png_to_jpg_image_to_dest():
-#     """Test convert_png_to_jpg for single images to destination module"""
-#
-#     run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.jpg" -d "Dest"'
-#     execute_command = os.system(run_code)
-#     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
+# TODO: 19 Test convert_jpg_to_png for single images to destination module
+def test_jpg_to_png_image_to_dest():
+    """Test convert_jpg_to_png for single images to destination module"""
+
+    run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images/img_002.jpg" -d "Dest"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to PNG by convert_jpg_to_png.py failed"
+
+# TODO: 20 Test convert_png_to_jpg for single images to destination module
+def test_png_to_jpg_image_to_dest():
+    """Test convert_png_to_jpg for single images to destination module"""
+
+    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.jpg" -d "Dest"'
+    execute_command = os.system(run_code)
+    assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
 
 # TODO: 21 Test value errors in functon calls
 def test_value_errors():
@@ -391,3 +391,6 @@ def reset_folder(source, oput, master):
             shutil.copy(os.path.join(master, fl), os.path.join(source, fl))
         except OSError:
             print('files not moved')
+
+# code=subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+# assert len(list(code.stdout.decode('utf-8'))) > 0, 'not executable in cmd'
