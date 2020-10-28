@@ -316,7 +316,7 @@ def test_png_to_jpg_image_to_dest():
 def test_value_errors():
     """Test value errors in function call"""
     # Reset image folder
-    reset_folder("Images", "Dest", "Images_Master")
+    # reset_folder("Images", "Dest", "Images_Master")
 
     with pytest.raises(ValueError):
         convert_jpg_to_png.jpg_to_png(source = "./abc")
@@ -345,7 +345,7 @@ def test_value_errors():
 def test_type_errors():
     """Test Type errors in function call"""
     # Reset image folder
-    reset_folder("Images", "Dest", "Images_Master")
+    # reset_folder("Images", "Dest", "Images_Master")
 
     with pytest.raises(TypeError):
         convert_jpg_to_png.jpg_to_png(source = 12)
