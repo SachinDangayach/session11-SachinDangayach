@@ -244,7 +244,7 @@ def test_doc_string():
 def test_jpg_to_png_to_dest():
     """Test convert_jpg_to_png to destination module"""
     # Reset image folder
-    reset_folder("Images", "Dest", "Images_Master")
+    reset_folder("./Images", "./Dest", "Images_Master")
 
     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images" -d "Dest"'
     execute_command = os.system(run_code)
