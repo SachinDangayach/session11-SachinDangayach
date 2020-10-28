@@ -225,8 +225,6 @@ def test_crop_by_pixels():
 # TODO: 10 Test convert_jpg_to_png.py module for single image
 def test_jpg_to_png_image():
     """Test convert_jpg_to_png.py module for single image"""
-    # Reset image folder
-    # reset_folder("Images", "Dest", "Images_Master")
 
     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images/img_002.jpg"'
     execute_command = os.system(run_code)
@@ -243,8 +241,8 @@ def test_png_to_jpg_image():
 # TODO: 12 Test convert_jpg_to_png to destination module
 def test_jpg_to_png_to_dest():
     """Test convert_jpg_to_png to destination module"""
-    # Reset image folder
-    reset_folder("Images", "Dest", "Images_Master")
+    # # Reset image folder
+    # reset_folder("Images", "Dest", "Images_Master")
 
     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images" -d "Dest"'
     execute_command = os.system(run_code)
@@ -310,7 +308,7 @@ def test_jpg_to_png_image_to_dest():
 def test_png_to_jpg_image_to_dest():
     """Test convert_png_to_jpg for single images to destination module"""
 
-    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.jpg" -d "Dest"'
+    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.png" -d "Dest"'
     execute_command = os.system(run_code)
     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
 
