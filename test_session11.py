@@ -282,7 +282,7 @@ def test_resize_by_height_to_dest():
 def test_crop_by_percent_to_dest():
     """Test crop_by_percent_value to destination module"""
 
-    run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -d "Dest" -w 1 -ht 2'
+    run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images_png" -d "Dest" -w 1 -ht 2'
     execute_command = os.system(run_code)
     assert not execute_command, "Image Cropping by Percent using crop_by_percent_value.py failed"
 
@@ -306,7 +306,7 @@ def test_jpg_to_png_image_to_dest():
 def test_png_to_jpg_image_to_dest():
     """Test convert_png_to_jpg for single images to destination module"""
 
-    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images/img_002.png" -d "Dest"'
+    run_code = 'python ./image_processing_module/convert_png_to_jpg.py -s "Images_png/img_016.png" -d "Dest"'
     execute_command = os.system(run_code)
     assert not execute_command, "Conversion to JPEG by convert_png_to_jpg.py failed"
 
