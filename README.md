@@ -1,74 +1,124 @@
 
 # EPAI Session 11 Assignment by Sachin Dangayach
 
-This assignment is based on the concepts of "Module".  We have used the timer decorator created in earlier session to time the function calls. We have session10.pynb file to check the logs of functions
+This assignment is based on the concepts of "Modules".  We have created seven python files with specific functionality as per the given assignment to convert images from jpg/ jpeg to png, resize these images by width, height or percentage factors, crop these images by pixel values or percentage of width and height. All of these can be called from command line by passing required arguments. We have created \_\_main__.py which helps to call all of the modules from command line. This helps also to create a model by placing all of these files in a folder named image_processing_module. We have also created an application named app.zip by zipping the individual code files.
 
-# Below are key functions in session10.py file.
+# Below are key functions, Modules and applications in the Repo.
 
-### A) Use Faker library to get 10000 random profiles. Using namedtuple, calculate the largest blood type, mean-current_location, oldest_person_age and average age (add proper doc-strings)
+### 1.  jpg_to_png : jpg/jpeg to png conversion (use PIL library)  ( j2p is arg from main)
+Module convert_jpg_to_png
+    Takes folder/file path for .jpg or .jpeg images and converts it to .png.
+    usage: convert_jpg_to_png.py [-s --src --source] [-d --dest] [-h --help]
+    # Inputs:
+        source : path to the folder/file containing images/image
+        destination : path to the folder to place converted images. If null,
+        destination is equals source.
+    # Functionality :
+        Takes all images in the given folder path and converts only those image
+        which are of .jpeg or .jpg format to .png format
+### 2 . png_to_jpg :  png to jpg conversion (use PIL library) ( p2j is arg from main)
+Module convert_png_to_jpg
+    Takes folder/file path for .png images and converts it to .jpg.
+    usage: convert_png_to_jpg.py [-s --src] [-d --dest] [-h --help]
+    # Inputs:
+        source : path to the folder/file containing images/image
+        destination : path to the folder to place converted images. If null,
+        destination is equals source.
+    # Functionality :
+        Takes all images in the given folder path and converts only those image
+        which are of .png format to .jpg format
 
-### 1.create_fake_library_by_namedtuple
-Generates a database of fake profiles based on user input.
-for example create_fake_library_by_namedtuple(10) will return named tuple of 10 named tuple of fake profiles
+### 3. crop_by_percent : centre square/rectangle crop by user-determined percentage (crop to 50%/70%) ( crp_p is arg from main)
+Module resize_by_percentage
+    # Inputs:
+        w_pixel : percent of width, images width will be cropped
+        h_pixel : pecent of height, images height will be cropped
+        source : path to the folder containing images
+        destination : path to the folder to place resize images
 
-### 2. largest_bg
-Return the most common blood group of fake profiles stored as named tuple of named tuple
+    # Functionality :
+        Takes all images in the given source and crop as per given perecent
+        values of width and height
+        for example, the image is of size 100 X 100 and pixel values are w_pixel = 10%
+        and h_pixel = 20%, new size of the image will be 90 X 80 cropped from center
 
-### 3. mean_current_location
-Return the mean current location ( average lat and long co-ordinates) of fake profiles stored in named tuple of named tuple
+### 4. crop_by_pixels : center square/rectangle crop by user-determined pixels ( crp_px is arg from main)
+Module resize_by_image_width
+    crop the image by given pixels
+    usage: crop_by_pixels_value.py [-w --wdth] [-h --hgth] [-s --src] [-d --dest] [-h --help]
 
-### 4. oldest_person_age
-Return the oldest person's age of fake profiles stored in named tuple of named tuple
+    # Inputs:
+        w_pixel : pixel value by which images width will be cropped
+        h_pixel :  pixel value by which images height will be cropped
+        source : path to the folder containing images
+        destination : path to the folder to place resize images
 
-### 5. average_age
-Return the oldest person's age of fake profiles stored in named tuple of named tuple
+    # Functionality :
+        Takes all images in the given source and crop as per given pixel
+        values of width and height
+        for example, the image is of size 100 X 100 and pixel values are w_pixel = 10
+        and h_pixel = 20, new size of the image will be 90 X 80 cropped from center
 
-### B) Use Faker library to get 10000 random profiles. Using dictionary, calculate the largest blood type, mean-current_location, oldest_person_age and average age (add proper doc-strings)
-### 6. create_fake_library_by_dict
-Generates a database of fake profiles based on user input for example create_fake_library_by_dict(10) will return dictionary of 10 dictionary of fake profiles
+### 5. resize_by_height :  resize by user determined height (proportional) ( res_h is arg from main)
+Module resize_by_image_height
+	Return the oldest person's age of fake profiles stored in named tuple of named tuple
+    Resize all images in proportion in a given folder by user
+    defined height
+    usage: resize_by_height.py [-h --hgth] [-s --src] [-d --dest] [-h --help]
 
-### 7. largest_bg_dict
-Return the most common blood group of fake profiles stored in dictionary of dictionary
+    # Inputs:
+        new_height : new height to which images will be resized.
+                    width will be adjusted in proportion
+        source : path to the folder containing images
+        destination : path to the folder to place resize images
 
-### 8. mean_current_location_dict
-Return the mean current location ( average lat and long co-ordinates) of fake profiles stored in dictionary of dictionary
+    # Functionality :
+        Takes all images in the given folder path and resize as per give height
+        for example if image is of size 100 X 100 and new height is 120, then
+        the new width to maintain the proportion will be 120, then all images
+        will be resized to 120 X 120
 
-### 9. oldest_person_age_dict
-Return the oldest person's age of fake profiles stored in dictionary of dictionary
+### 6. resize_by_width : resize by user determined width (proportional)  ( res_w is arg from main )
+Module crop_by_percent_value
+    Resize all images in proportion in a given folder by user defined width
+    usage: resize_by_width.py [-w --wdth] [-s --src] [-d --dest] [-h --help]
 
-### 10. average_age_dict
-Return the oldest person's age of fake profiles stored in dictionary of dictionary
+    # Inputs:
+        new_width : new width to which images will be resized.
+                    height will be adjusted in proportion
+        source : path to the folder containing images
+        destination : path to the folder to place resize images
 
-### 11. compare_time
-function to compare the performance of named tuple vs dict. Function takes input as fake profiles library implemented as named tuple of named tuple and dictionary of dictionary. For named tuples based libraries, it runs and time 100 iterations of function named largest_bg, mean_current_location, oldest_person_age,  average_age and add it to a timer variable. It repeates the same for library implemented as dictionary of dictionary while timing the 100 times execution of each of largest_bg, mean_current_location,        oldest_person_age, average_age and storing it in another timer variable.
-Finally it compares the timing as based on it prints the winner as well as returns both timer variables
+    # Functionality :
+        Takes all images in the given source and resize as per give width
+        for example if image is of size 100 X 100 and new width is 120, then
+        the new heigh to maintain the proportion will be 120, then all images
+        will be resized to 120 X 120
 
-### C) Create a fake data (you can use Faker for company names) for imaginary stock exchange for top 100 companies (name, symbol, open, high, close). Assign a random weight to all the companies. Calculate and show what value stock market started at, what was the highest value during the day and where did it end. Make sure your open, high, close are not totally random.
+### 7. resize_by_percent_factor : resize by user determined percentage (say 50% for height and width) (proportional) ( res_p is arg from main )
+Module crop_by_pixels_value
+    Resize all images in given folder by user defined percentage factor
+    usage: resize_by_percentage.py  [-p --prcn] [-s --src] [-d --dest] [-h --help]
+    # Inputs:
+        resize_percent : percentage by which images will be resized
+        source : path to the folder containing images
+        destination : path to the folder to place resize images
 
-### 12. create_stock_exchange
-function to create fake company profiles and list them on a fake stock exchange.
-Function follows the following steps
-        *1. Function generates the a class  for named tuple and then
-        generates a random weights in the named tuple
-        *2. Take the sum of all weights to generate a named tuple of
-        normalized weights
-        *3. Create class for named tuple for a company with fields as
-        'company_name', 'symbol', 'value', 'open', 'high', 'low', 'close'
-        *4. Company Name: Create named tuple class for stock exchange
-        *5. in loop get the fake company name by faker
-        *6. Symbol: Generate the symbol of company by selection first letter and
-        last letters of the company name while randomly choosing the middle
-        letter while making sure its not a special character
-        *7. Value: Randomly select the value of company between 3000 to 5000
-        *8. Open: Companies contribution can be found as normalized weight * value
-        *9. High: Open multiple with random value between .8 to 1.3
-        *10. Low: Low can be from .5 multiple with open to high value for that company on a given day
-        *11. Close: Close can be any number between Low and High including them
+    # Functionality :
+        Takes all images in the given source and resize them
+        for example if image is of size 100 X 100 and resize percent is
+        110, then all images will be resized to 110 X 110
 
-### 13. stock_exchange_details
-Calculate the days open, low, high and closing for stock exchange. Loops through the tuples of top 100 companies listed in exchange and returns on calculation, the day_open, day_high, day_low and day_close value for exchange
+### 8. \_\_main__ : module that exposes all these features (using argparse)
+We use argparse to call various modules from command line by passing arguments.
 
-# Below are test cases functions in test_session10.py file.
+### 9. Module image_processing_module: Its a module for image processing functions
+Once we place \_\_main__.py in the folder image_processing_module, it becomes a module. It contains convert_jpg_to_png','convert_png_to_jpg', 'resize_by_percentage',   'resize_by_image_width', 'resize_by_image_height', 'crop_by_percent_value', 'crop_by_pixels_value'
+
+### 10. app.zip : Created a zipped app, that exposes all of these features from command line. We create an application by create application by following command-
+python -m zipfile -c app.zip \_\_main__.py convert_jpg_to_png.py convert_png_to_jpg.py resize_by_percentage.py resize_by_image_width.py resize_by_image_height.py crop_by_percent_value.py crop_by_pixels_value.py
+
+# Below are test cases functions in test_session11.py file.
 
 ## Check for coding standards-
 
@@ -90,13 +140,82 @@ Test for source code formatting. No tabs but four spaces are used for indentatio
 ## 6. test_function_name_had_cap_letters :
 Test for no function is with capitals in source code
 
+## 7. test_function_count :
+Test to check minimum 20 functions are provided
+
+## 8. test_function_repeatations:
+Test for no function is repeated
+
+## 9. test_doc_string:
+Test to check doc strings
+
+## 10. test_function_name_had_cap_letters :
+Test for no function is with capitals in source code
+
 # Test cases for assignments
 
-## 7. test_compare_perforamce:
-Test to check the performance of named tuple is better than dictionary
+## 11. test_ip_module:
+Test to check the image processing module is working
 
-## 8. test_doc_string:
-Test to check the doc string exists
+## 12. test_ip_app:
+Test to check the app.zip for image processing module is working
 
-## 9. test_stock_exchange :
-Test to check the stock exchange numbers are correct
+## 13. test_jpg_to_png:
+Test convert_jpg_to_png.py module
+
+## 14. test_png_to_jpg:
+Test convert_png_to_jpg.py module
+
+## 15. test_resize_by_percent_factor:
+Test resize_by_percentage.py module
+
+## 16. test_resize_by_width:
+Test resize_by_image_width.py module
+
+## 17. test_resize_by_height:
+Test resize_by_image_height.py module
+
+## 18. test_crop_by_percent:
+Test crop_by_percent_value.py module
+
+## 19. test_crop_by_pixels:
+Test crop_by_pixels_value.py module
+
+## 20. test_jpg_to_png_image:
+Test convert_jpg_to_png.py module for single image
+
+## 21. test_png_to_jpg_image:
+Test convert_png_to_jpg.py module for single image
+
+## 22. test_jpg_to_png_to_dest:
+Test convert_jpg_to_png to destination module
+
+## 23. test_png_to_jpg_to_dest:
+Test convert_png_to_jpg to destination module
+
+## 24. test_resize_by_percent_factor_to_dest:
+Test resize_by_percentage to destination module
+
+## 25. test_resize_by_width_to_dest:
+Test resize_by_image_width to destination module
+
+## 26. test_resize_by_height_to_dest:
+Test resize_by_image_height module to destination module
+
+## 27. test_crop_by_percent_to_dest:
+Test crop_by_percent_value to destination module
+
+## 28. test_crop_by_pixels_to_dest:
+Test crop_by_pixels_value to destination module
+
+## 29. test_jpg_to_png_image_to_dest:
+Test convert_jpg_to_png for single images to destination module
+
+## 30. test_png_to_jpg_image_to_dest:
+Test convert_png_to_jpg for single images to destination module
+
+## 31. test_value_errors:
+Test value errors in function call
+
+## 32. test_type_errors:
+Test Type errors in function call
