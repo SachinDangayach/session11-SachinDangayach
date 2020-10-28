@@ -241,8 +241,6 @@ def test_png_to_jpg_image():
 # TODO: 12 Test convert_jpg_to_png to destination module
 def test_jpg_to_png_to_dest():
     """Test convert_jpg_to_png to destination module"""
-    # # Reset image folder
-    # reset_folder("Images", "Dest", "Images_Master")
 
     run_code = 'python ./image_processing_module/convert_jpg_to_png.py -s "Images" -d "Dest"'
     execute_command = os.system(run_code)
@@ -268,7 +266,7 @@ def test_resize_by_percent_factor_to_dest():
 def test_resize_by_width_to_dest():
     """Test resize_by_image_width to destination module"""
 
-    run_code = 'python ./image_processing_module/resize_by_image_width.py -s "Images" -d "Dest" -w 800'
+    run_code = 'python ./image_processing_module/resize_by_image_width.py -s "Images" -d "Dest" -w 1500'
     execute_command = os.system(run_code)
     assert not execute_command, "Image resize by Width using  resize_by_image_width.py failed"
 
@@ -276,7 +274,7 @@ def test_resize_by_width_to_dest():
 def test_resize_by_height_to_dest():
     """Test resize_by_image_height module to destination module"""
 
-    run_code = 'python ./image_processing_module/resize_by_image_height.py -s "Images" -d "Dest" -ht 800'
+    run_code = 'python ./image_processing_module/resize_by_image_height.py -s "Images" -d "Dest" -ht 1200'
     execute_command = os.system(run_code)
     assert not execute_command, "Image Resize by Height using resize_by_image_height.py failed"
 
@@ -284,7 +282,7 @@ def test_resize_by_height_to_dest():
 def test_crop_by_percent_to_dest():
     """Test crop_by_percent_value to destination module"""
 
-    run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -d "Dest" -w 10 -ht 20'
+    run_code = 'python ./image_processing_module/crop_by_percent_value.py -s "Images" -d "Dest" -w 1 -ht 2'
     execute_command = os.system(run_code)
     assert not execute_command, "Image Cropping by Percent using crop_by_percent_value.py failed"
 
@@ -315,8 +313,6 @@ def test_png_to_jpg_image_to_dest():
 # TODO: 21 Test value errors in functon calls
 def test_value_errors():
     """Test value errors in function call"""
-    # Reset image folder
-    # reset_folder("Images", "Dest", "Images_Master")
 
     with pytest.raises(ValueError):
         convert_jpg_to_png.jpg_to_png(source = "./abc")
@@ -344,8 +340,6 @@ def test_value_errors():
 # TODO: 22 Test Type errors in function call
 def test_type_errors():
     """Test Type errors in function call"""
-    # Reset image folder
-    # reset_folder("Images", "Dest", "Images_Master")
 
     with pytest.raises(TypeError):
         convert_jpg_to_png.jpg_to_png(source = 12)
@@ -365,29 +359,3 @@ def test_type_errors():
         crop_by_pixels_value.crop_by_pixels(w_pixel = 'abc', h_pixel = 100, source = "Images")
     with pytest.raises(TypeError):
         crop_by_pixels_value.crop_by_pixels(w_pixel = 100, h_pixel = '100', source = "Images")
-
-def reset_folder(source, oput, master):
-    """Reset folders to initial state"""
-    filenames = os.listdir(source)
-    for fl in filenames:
-        try:
-            os.unlink(os.path.join(source, fl))
-        except OSError:
-            print('folder not deleted')
-
-    filenames = os.listdir(oput)
-    if filenames:
-        for fl in filenames:
-            if fl == 'dummy.txt':
-                continue
-            try:
-                os.unlink(os.path.join(oput, fl))
-            except OSError:
-                print('folder not deleted')
-
-    filenames_new = os.listdir(master)
-    for fl in filenames_new:
-        try:
-            shutil.copy(os.path.join(master, fl), os.path.join(source, fl))
-        except OSError:
-            print('files not moved')
